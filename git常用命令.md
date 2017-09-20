@@ -1,38 +1,21 @@
-像大多数新手一样，我一开始是在 StackOverflow 上搜索 Git 命令，然后把答案复制粘贴，并没有真正理解它们究竟做了什么。
-
-一周工作所用的日常 Git 命令
-
-Image credit: XKCD[1]
-
-我曾经想过：“如果有一个最常见的 Git 命令的列表，以及它们的功能是什么，这不是极好的吗？”
-
-多年之后，我编制了这样一个列表，并且给出了一些最佳实践，让新手们甚至中高级开发人员都能从中发现有用的东西。
-
-为了保持实用性，我将这个列表与我过去一周实际使用的 Git 命令进行了比较。
-
 几乎每个开发人员都在使用 Git，当然很可能是 GitHub。但大多数开发者大概有 99％ 的时间只是使用这三个命令：
-
-git add --all
-git commit -am "<message>"
-git push origin master
+  git add --all
+  git commit -am "<message>"
+  git push origin master
 如果你只是单枪匹马，或者参加一场黑客马拉松或开发一次性的应用时，它工作得很好，但是当稳定性和可维护性开始成为一个优先考虑的事情后，清理提交、坚持分支策略和提交信息的规范性就变得很重要。
 
-我将从常用命令的列表开始，使新手更容易了解 Git 能做什么，然后进入更高级的功能和最佳实践。
-
-经常使用的命令
-
 要想在仓库repo中初始化 Git，你只需输入以下命令即可。如果你没有初始化 Git，则不能在该仓库内运行任何其他的 Git 命令。
+  git init
+  
+如果你在使用GitHub，而且正在将代码推送到在线存储的GitHub仓库中，那么你正在使用的就是远程remote仓库。该远程仓库的默认名称（也称为别名）为`origin`。如果你已经从Github复制了一个项目，它就有了一个`origin`。你可以使用命令 `git remote -v` 查看该`origin`，该命令将列出远程仓库的 URL。
 
-git init
-如果你在使用 GitHub，而且正在将代码推送到在线存储的 GitHub 仓库中，那么你正在使用的就是远程remote仓库。该远程仓库的默认名称（也称为别名）为 origin。如果你已经从 Github 复制了一个项目，它就有了一个 origin。你可以使用命令 git remote -v 查看该 origin，该命令将列出远程仓库的 URL。
+如果你初始化了自己的Git仓库，并希望将其与GitHub仓库相关联，则必须在GitHub上创建一个，复制新仓库提供的`URL`，并使用`git remote add origin <URL> `命令，这里使用GitHub提供的URL替换 <URL>。这样，你就可以添加、提交和推送更改到你的远程仓库了。
 
-如果你初始化了自己的 Git 仓库，并希望将其与 GitHub 仓库相关联，则必须在 GitHub 上创建一个，复制新仓库提供的 URL，并使用 git remote add origin <URL> 命令，这里使用 GitHub 提供的 URL 替换 <URL>。这样，你就可以添加、提交和推送更改到你的远程仓库了。
+最后一条命令用在当你需要更改远程仓库时。如果你从其他人那里复制了一个仓库，并希望将远程仓库从原始所有者更改为你自己的 GitHub 帐户。除了改用 set-url 来更改远程仓库外，流程与 `git remote add origin` 相同。
 
-最后一条命令用在当你需要更改远程仓库时。如果你从其他人那里复制了一个仓库，并希望将远程仓库从原始所有者更改为你自己的 GitHub 帐户。除了改用 set-url 来更改远程仓库外，流程与 git remote add origin 相同。
-
-git remote -v
-git remote add origin <url>
-git remote set-url origin <url>
+  git remote -v
+  git remote add origin <url>
+  git remote set-url origin <url>
 复制仓库最常见的方式是使用 git clone，后跟仓库的 URL。
 
 请记住，远程仓库将连接到克隆仓库原属于的帐户。所以，如果你克隆了一个属于别人的仓库，你将无法推送到 GitHub，除非你使用上面的命令改变了 origin。
