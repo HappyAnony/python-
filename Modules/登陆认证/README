@@ -1,0 +1,4 @@
+ssh密钥连接：本地私钥：~/.ssh/id_rsa
+        远程公钥：~/.ssh/authorized_keys  (每行只能存放一个公钥；一个公钥也只能存放一行，不能换行)
+        为避免自行copy公钥到远程主机上可以通过命令将生成的公钥copy到远程主机的authorized_keys中：ssh-copy-id "-p22 root@192.168.80.128"
+        将linux虚拟机中的文件传到win下：sz ~/.ssh/id_rsa或者使用rz

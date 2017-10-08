@@ -1,6 +1,7 @@
 几乎每个开发人员都在使用 Git，当然很可能是 GitHub。但大多数开发者大概有 99％ 的时间只是使用这三个命令：
   git add --all
   git commit -am "<message>"
+  git pull --rebase origin master
   git push origin master
 如果你只是单枪匹马，或者参加一场黑客马拉松或开发一次性的应用时，它工作得很好，但是当稳定性和可维护性开始成为一个优先考虑的事情后，清理提交、坚持分支策略和提交信息的规范性就变得很重要。
 

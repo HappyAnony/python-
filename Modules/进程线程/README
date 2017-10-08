@@ -1,0 +1,38 @@
+参考文档：http://www.cnblogs.com/alex3714/articles/5230609.html
+进程：运行中的程序，静态程序的实例化，包含内存管理等各种对资源的调用，是所以计算资源的集合
+线程：一个执行上下文【寄存器值集合】，进程的基本组成单元，也是操作系统的最小调度单位，是一串指令的集合
+
+进程本身不可执行，线程本身可执行，进程是线程的集合，所以可以通过线程执行
+CPU操作的对象是线程，即进程要想调用CPU必须创建一个线程通过线程进行调用，所以启动一个进程时会自动生成一个线程【主线程】
+进程是有父进程子进程之分【子进程会因父进程的消失而消失】；线程没有主次父子之别【主线程创建其它线程，但其它线程不会因为主线程不在而消失】
+每个线程都可以启动其它子线程，但是启动后的子线程与当前线程是相互独立运行的
+启动一个线程比启动一个进程快
+线程快还是进程快？这是一个伪命题，两者没有可比性，进程是资源的集合，不能执行；线程是执行上下文，可以执行。如果非要比快，那就是一样快，因为都是执行线程
+the resources associated with a process include
+    memory pages (all the threads in a process have the same view of the memory==共享内存)
+    file descriptors (e.g., open sockets)
+    security credentials (e.g., the ID of the user who started the process).
+
+
+线程和进程的区别：
+Threads share the address space of the process that created it; processes have their own address space.
+Threads have direct access to the data segment of its process; processes have their own copy of the data segment of the parent process.
+Threads can directly communicate with other threads of its process; processes must use interprocess communication to communicate with sibling processes.
+New threads are easily created; new processes require duplication of the parent process.
+Threads can exercise considerable control over threads of the same process; processes can only exercise control over child processes.
+Changes to the main thread (cancellation, priority change, etc.) may affect the behavior of the other threads of the process; changes to the parent process does not affect child processes.
+
+
+单核实现多线程并发的原理：上下文切换
+python缺陷：任何情况下，同一时间只能执行一个线程，因为cpython解释器中对于线程的启动和执行时通过调用os中的c库系统调用实现的，无法控制c库中线程的执行逻辑
+           所以为了避免多线程执行结果紊乱，在设计时同一时间只能执行一个线程(同一时间可以启动多个线程)
+
+
+python的线程是使用操作系统的原生线程
+python的进程也是使用操作系统的原生进程
+
+IO操作不占用CPU
+计算操作占用CPU
+
+python多线程不适用于CPU密集操作型的任务；适用于IO密集操作型的任务
+CPU密集操作型任务可以通过python多进程实现

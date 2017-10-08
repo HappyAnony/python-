@@ -2,7 +2,7 @@
 # -*-coding :uft-8 -*-
 # Author:Anony
 
-import getpass
+import getpass   # getpass模块在pycharm中无法使用
 _username = "anony"
 _password = "12345"
 for i in range(3):

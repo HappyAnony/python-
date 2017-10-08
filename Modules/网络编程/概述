@@ -1,0 +1,52 @@
+# 参考文档：http://www.cnblogs.com/wupeiqi/articles/5040823.html
+# 参考文档：http://www.cnblogs.com/alex3714/articles/5830365.html
+
+所有网络的协议本质上就是对数据的接收和发送
+socket实现了对tcp/ip协议簇的封装，使得网络编程时不用考虑如何将数据封装成包，只需要关心发什么数据，如何处理接收的数据即可
+
+
+Socket Families(地址簇)
+AF_UNIX unix本机进程间通信
+AF_INET　IPV4　
+AF_INET6  IPV6
+
+Socket Types
+SOCK_STREAM  #for tcp
+SOCK_DGRAM   #for udp
+SOCK_RAW     #原始套接字，普通的套接字无法处理ICMP、IGMP等网络报文，而SOCK_RAW可以；其次，SOCK_RAW也可以处理特殊的IPv4报文；此外，利用原始套接字，可以通过IP_HDRINCL套接字选项由用户构造IP头。
+SOCK_RDM  #是一种可靠的UDP形式，即保证交付数据报但不保证顺序。SOCK_RAM用来提供对原始协议的低级访问，在需要执行某些特殊操作时使用，如发送ICMP报文。SOCK_RAM通常仅限于高级用户或管理员运行的程序使用
+
+
+send发送和recv接收都有一个缓冲区buffer
+
+recv接收数据的场景：
+（1）当recv_buffer为空时，recv是不会触发接收数据的
+（2）当recv_buffer填满时会自动触发接收数据
+（3）当recv_buffer有数据时，调用recv方法就可以手动触发接收数据
+
+
+send常出现问题：
+（1）python3中send只能发送bytes二进制数据
+（2）send不能发送空字符，这样会造成阻塞盲等
+（3）send方法一次只能发送几十k数据；sendall可以实现将所有大小数据一次发送出去
+解决方法：
+（1）send数据前str.encode('utf-8')一下
+（2）send数据前判断len(str)的值是否为0
+
+
+
+recv常出现的问题：
+（1）python3中接收到的都是bytes二进制数据
+（2）send发送的数据超过recv_buffer的最大值buffer_size时，此时触发recv接收buffer_size大小的数据
+     然后第二次手动或recv_buffer填满触发recv接收剩下的数据
+解决方法：
+（1）调用数据前str.decode()一下
+（2）方法一：增大buffer_size，此方法不可取
+    方法二：先send需要接收数据的大小size；然后循环接收数据，直到接收数据大小等于或大于发送数据的大小size即可
+
+
+解决发送粘包：
+在两个send之间添加一个recv进行阻塞隔断
+
+socket：不能支持多并发，多用户
+SocketServer：用于并发处理
